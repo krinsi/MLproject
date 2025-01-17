@@ -1,0 +1,6 @@
+.artifacts
+.env
+.venv
+env/
+venv/
+env/

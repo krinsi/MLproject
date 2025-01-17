@@ -6,7 +6,15 @@ from dataclasses import dataclass
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.preprocessing import StandardScaler
+
+# Dynamically add project root to sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
+
+# Debug: Print the current system path
+print("System Path:", sys.path)
+
+# Import project-specific modules
 from src.exception import CustomException
 from src.logger import logging
 from src.utils import save_object
@@ -21,7 +29,10 @@ class DataTransformation:
     def __init__(self):
         self.data_transformation_config = DataTransformationConfig()
 
-    def get_data_transformer_objects(self):  # Data transformation pipeline
+    def get_data_transformer_objects(self):
+        """
+        Creates and returns the data transformation pipeline.
+        """
         try:
             # Define numerical columns
             numerical_columns = [
@@ -29,7 +40,7 @@ class DataTransformation:
                 "Insulin", "BMI", "DiabetesPedigreeFunction", "Age"
             ]
 
-            # Numerical pipeline
+            # Define numerical pipeline
             num_pipeline = Pipeline(
                 steps=[
                     ("imputer", SimpleImputer(strategy="median")),
@@ -52,6 +63,9 @@ class DataTransformation:
             raise CustomException(e, sys)
 
     def initiate_data_transformation(self, train_path, test_path):
+        """
+        Applies data transformation to the train and test datasets.
+        """
         try:
             # Load datasets
             train_df = pd.read_csv(train_path)
@@ -65,7 +79,7 @@ class DataTransformation:
             # Define target column
             target_column_name = "Outcome"
 
-            # Separate features and target in train and test sets
+            # Separate features and target in train and test datasets
             input_feature_train_df = train_df.drop(columns=[target_column_name], axis=1)
             target_feature_train_df = train_df[target_column_name]
 
@@ -91,3 +105,27 @@ class DataTransformation:
 
         except Exception as e:
             raise CustomException(e, sys)
+
+'''
+if __name__ == "__main__":
+    try:
+        # Import `DataIngestion` after appending the path
+        from src.components.data_ingestion import DataIngestion
+
+        # Perform data ingestion
+        data_ingestion = DataIngestion()
+        train_path, test_path = data_ingestion.initiate_data_ingestion()
+
+        # Perform data transformation
+        data_transformation = DataTransformation()
+        train_arr, test_arr, preprocessor_path = data_transformation.initiate_data_transformation(train_path, test_path)
+
+        logging.info("Data transformation completed successfully.")
+        logging.info(f"Preprocessor saved at: {preprocessor_path}")
+
+    except CustomException as e:
+        logging.error(f"CustomException occurred: {e}")
+    except Exception as ex:
+        logging.error(f"Unhandled Exception: {ex}")
+'''
+

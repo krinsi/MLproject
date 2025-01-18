@@ -1,6 +1,6 @@
 import sys
 import os
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template , jsonify
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
@@ -13,6 +13,12 @@ from src.pipeline.predict_pipeline import CustomData, PredictPipeline
 
 application = Flask(__name__)
 app = application
+
+@app.errorhandler(Exception)
+def handle_exception(e):
+    import traceback
+    traceback.print_exc()  # Print traceback for debugging
+    return jsonify({"error": str(e)}), 500
 
 ## Route for the home page
 @app.route('/')
@@ -54,6 +60,9 @@ def predict_datapoint():
         except Exception as e:
             print(f"Error during prediction: {e}")
             return render_template('home.html', results="Error occurred during prediction. Please check your inputs.")
-
+'''
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
+'''
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)

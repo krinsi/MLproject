@@ -1,6 +1,0 @@
-[ 2025-01-18 16:53:27,234 ] 32 root - INFO - Entered the data ingestion method.
-[ 2025-01-18 16:53:27,243 ] 37 root - INFO - Dataset loaded successfully as a DataFrame.
-[ 2025-01-18 16:53:27,252 ] 44 root - INFO - Raw data saved successfully.
-[ 2025-01-18 16:53:27,264 ] 51 root - INFO - Train and test datasets created and saved successfully.
-[ 2025-01-18 16:53:27,264 ] 65 root - INFO - Data transformation started.
-[ 2025-01-18 16:53:27,264 ] 67 root - INFO - Data transformation completed.

@@ -1,46 +1,45 @@
-import pickle
-import pandas as pd
-from sklearn.preprocessing import StandardScaler
-from flask import Flask, request, render_template
+from flask import Flask,request,render_template
 import numpy as np
-from src.pipeline.predict_pipeline import CustomData, PredictPipeline
+import pandas as pd
 
-application = Flask(__name__)
-app = application
+from sklearn.preprocessing import StandardScaler
+from src.pipeline.predict_pipeline import CustomData,PredictPipeline
 
-# Route for homepage
+application=Flask(__name__)
+
+app=application
+
+## Route for a home page
+
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html') 
 
-# Route for single data point prediction
-@app.route('/predictdata', methods=['GET', 'POST'])
+@app.route('/predictdata',methods=['GET','POST'])
 def predict_datapoint():
-    if request.method == 'GET':
+    if request.method=='GET':
         return render_template('home.html')
     else:
-        # Collecting form data
-        data = CustomData(
-            Pregnancies=int(request.form.get("Pregnancies")),
-            Glucose=float(request.form.get('Glucose')),
-            BloodPressure=float(request.form.get('BloodPressure')),
-            SkinThickness=float(request.form.get('SkinThickness')),
-            Insulin=float(request.form.get('Insulin')),
-            BMI=float(request.form.get('BMI')),
-            DiabetesPedigreeFunction=float(request.form.get('DiabetesPedigreeFunction')),
-            Age=float(request.form.get('Age'))
-        )
-        
-        # Converting to DataFrame
-        pred_df = data.get_data_as_data_frame()
-        print(pred_df)
-        
-        # Predicting
-        predict_pipeline = PredictPipeline()
-        result = predict_pipeline.predict(pred_df)
-        
-        # Rendering result
-        return render_template('home.html', result=result[0])
+        data=CustomData(
+            gender=request.form.get('gender'),
+            race_ethnicity=request.form.get('ethnicity'),
+            parental_level_of_education=request.form.get('parental_level_of_education'),
+            lunch=request.form.get('lunch'),
+            test_preparation_course=request.form.get('test_preparation_course'),
+            reading_score=float(request.form.get('writing_score')),
+            writing_score=float(request.form.get('reading_score'))
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+        )
+        pred_df=data.get_data_as_data_frame()
+        print(pred_df)
+        print("Before Prediction")
+
+        predict_pipeline=PredictPipeline()
+        print("Mid Prediction")
+        results=predict_pipeline.predict(pred_df)
+        print("after Prediction")
+        return render_template('home.html',results=results[0])
+    
+
+if __name__=="__main__":
+    app.run(host="0.0.0.0")        

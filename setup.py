@@ -1,5 +1,11 @@
 from setuptools import find_packages,setup
 from typing import List
+import sys
+import os
+
+# Add the project root directory to PYTHONPATH
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+
 
 HYPEN_E_DOT='-e .'
 def get_requirements(file_path:str)->List[str]:

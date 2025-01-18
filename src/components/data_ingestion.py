@@ -6,8 +6,15 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
+
 from src.exception import CustomException
 from src.logger import logging
+
+from src.components.data_transformation import DataTransformation
+from src.components.data_transformation import DataTransformationConfig
+
+from src.components.model_trainer import ModelTrainerConfig
+from src.components.model_trainer import ModelTrainer
 
 
 @dataclass
@@ -61,17 +68,19 @@ class DataTransformation:
 
 
 if __name__ == "__main__":
-    try:
         # Perform data ingestion
         obj = DataIngestion()
-        train_path, test_path = obj.initiate_data_ingestion()
-        logging.info(f"Data ingestion completed. Train data: {train_path}, Test data: {test_path}")
+        train_data, test_data = obj.initiate_data_ingestion()
 
         # Perform data transformation
+        
         data_transformation = DataTransformation()
-        data_transformation.initiate_data_transformation(train_path, test_path)
+       ## train_arr, test_arr, _ = data_transformation.initiate_data_transformation(train_data, test_data)
+        train_arr, test_arr, train_labels, test_labels = data_transformation.initiate_data_transformation(train_data, test_data)
 
-    except CustomException as e:
-        logging.error(f"CustomException occurred: {e}")
-    except Exception as ex:
-        logging.error(f"Unhandled Exception: {ex}")
+        # Perform model training
+        model_trainer = ModelTrainer()
+        print(model_trainer.initiate_model_trainer(train_arr, test_arr))
+        
+        
+       

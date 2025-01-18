@@ -1,0 +1,5 @@
+[ 2025-01-17 21:35:24,898 ] 31 root - INFO - Entered the data ingestion method.
+[ 2025-01-17 21:35:24,913 ] 36 root - INFO - Dataset loaded successfully as a DataFrame.
+[ 2025-01-17 21:35:24,923 ] 43 root - INFO - Raw data saved successfully.
+[ 2025-01-17 21:35:24,936 ] 50 root - INFO - Train and test datasets created and saved successfully.
+[ 2025-01-17 21:35:24,936 ] 73 root - INFO - Data ingestion completed. Train data: artifacts\train.csv, Test data: artifacts\test.csv

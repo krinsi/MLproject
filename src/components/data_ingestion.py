@@ -3,15 +3,16 @@ import sys
 import pandas as pd
 from dataclasses import dataclass
 from sklearn.model_selection import train_test_split
+
+# Add the project root to the Python path
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+sys.path.append(PROJECT_ROOT)
+
+# Now import the 'src' module
 from src.exception import CustomException
 from src.logger import logging
 from src.components.data_transformation import DataTransformation
 from src.components.model_trainer import ModelTrainer
-
-# Ensure the project root directory is added to the Python path
-PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
-sys.path.append(PROJECT_ROOT)
-
 
 @dataclass
 class DataIngestionConfig:
@@ -27,9 +28,8 @@ class DataIngestion:
     def initiate_data_ingestion(self):
         logging.info("Entered the data ingestion method or component")
         try:
-            # Load dataset
-           # os.makedirs("notebook/data/",exist_ok=True)
-            df = pd.read_csv('notebook/data/stud.csv')
+            # Load dataset (ensure the correct path is used for 'stud.csv')
+            df = pd.read_csv('notebook/data/stud.csv')  # Ensure the file exists here
             logging.info('Dataset loaded successfully')
 
             # Ensure artifacts directory exists
